@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
   xhr.responseType = 'json';
 
   // Send the proper header information along with the request
-  xhr.setRequestHeader("Authentication", "application/x-www-form-urlencoded");
+  xhr.setRequestHeader("Authentication", "Basic " + bota("UBmFQRdzisR5CANmMfzAjw:MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ"));
 
   xhr.onreadystatechange = () => {
     // Call a function when the state changes.
