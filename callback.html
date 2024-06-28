@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
       sessionStorage.setItem("refresh-token", xhr.response.refresh_token)
       makeAPIRequest("api/v1/me", xhr.response.access_token).then((result) => {
         info = result
-        document.querySelector("#user_info").innerHTML = `You've now connected YAIR-WEB to Reddit for /u/${result.name}!`
+        document.querySelector("#user_info").innerHTML = `You've now connected YAIR-WEB to Reddit for <a href="https://reddit.com/u//u/${result.name}">/u/${result.name}</a>!`
       });
 
     }
