@@ -9,10 +9,9 @@
   <body>
   <section class="section">
     <div class="container">
-        <div class="has-text-centered">
-            You have Authorized
+        <div id="user_info" class="has-text-centered">
+            Checking for connection to Reddit...
         </div>
-        <div id="username"></div>
   </section>
   </body>
 
@@ -33,14 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       sessionStorage.setItem("access-token", xhr.response.access_token);
       sessionStorage.setItem("refresh-token", xhr.response.refresh_token)
-      //const user_info = api_get("api/v1/me", xhr.response.access_token)
-      //user_info = JSON.parse(user_info.response)
-      //info = user_info.response
-      //document.querySelector("username").innerHTML = user_info.response.name
-
       makeAPIRequest("api/v1/me", xhr.response.access_token).then((result) => {
         info = result
-        document.querySelector("#username").innerHTML = result.name
+        document.querySelector("#user_info").innerHTML = `You've now connected YAIR-WEB to Reddit for /u/${result.name}!`
       });
 
     }
@@ -49,16 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 }, false);
 
-/*
-function api_get(endpoint, token) {
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", "https://oauth.reddit.com/" + endpoint, false);
-  //xhr.responseType = 'json';
-  xhr.setRequestHeader("Authorization", "bearer " + token);
-  xhr.send();
-  return xhr
-}
-*/
+
 function makeAPIRequest(endpoint, token) {
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
