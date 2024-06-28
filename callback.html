@@ -29,13 +29,13 @@ document.addEventListener('DOMContentLoaded', function() {
   xhr.responseType = 'json';
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.setRequestHeader("Authorization", "Basic " + btoa("UBmFQRdzisR5CANmMfzAjw:MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ"));
-  xhr.onreadystatechange = async () => {
+  xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       sessionStorage.setItem("access-token", xhr.response.access_token);
       sessionStorage.setItem("refresh-token", xhr.response.refresh_token)
-      const user_info = await api_get("api/v1/me", xhr.response.access_token)
-      info = user_info
-      document.querySelector("username").innerHTML = user_info.name
+      const user_info = api_get("api/v1/me", xhr.response.access_token)
+      info = user_info.response
+      document.querySelector("username").innerHTML = user_info.response.name
     }
   };
   xhr.send(`grant_type=authorization_code&code=${code}&redirect_uri=https://adhesivecheese.github.io/yair-web/callback.html`);
@@ -47,12 +47,8 @@ async function api_get(endpoint, token) {
   xhr.open("GET", "https://oauth.reddit.com/" + endpoint, true);
   xhr.responseType = 'json';
   xhr.setRequestHeader("Authorization", "bearer " + token);
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      return xhr.response
-    }
-  };
   xhr.send();
+  return xhr
 }
 
 </script>
