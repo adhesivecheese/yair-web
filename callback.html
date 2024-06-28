@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const urlParams = new URLSearchParams(queryString);
   const code = urlParams.get('code')
 
+  var info = ""
+
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "https://www.reddit.com/api/v1/access_token", true);
   xhr.responseType = 'json';
@@ -33,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
       sessionStorage.setItem("access-token", xhr.response.access_token);
       sessionStorage.setItem("refresh-token", xhr.response.refresh_token)
       const user_info = api_get("api/v1/me", xhr.response.access_token)
+      info = user_info
       document.querySelector("username").innerHTML = user_info.name
     }
   };
@@ -47,7 +50,6 @@ function api_get(endpoint, token) {
   xhr.setRequestHeader("Authorization", "bearer " + token);
   xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      console.log(xhr.response)
       return xhr.response
     }
   };
