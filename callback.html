@@ -17,6 +17,8 @@
 
 <script>
 
+var responseTest = ""
+
 document.addEventListener('DOMContentLoaded', function() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -32,7 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      console.log(JSON.parse(xhr.responseJSON))
+      responseTest = xhr.responseJSON
+      console.log(xhr.responseJSON)
     }
   };
   xhr.send(`grant_type=authorization_code&code=${code}&redirect_uri=https://adhesivecheese.github.io/yair-web/callback.html`);
