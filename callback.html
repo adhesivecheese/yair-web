@@ -33,16 +33,23 @@ document.addEventListener('DOMContentLoaded', function() {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       sessionStorage.setItem("access-token", xhr.response.access_token);
       sessionStorage.setItem("refresh-token", xhr.response.refresh_token)
-      const user_info = api_get("api/v1/me", xhr.response.access_token)
-      user_info = JSON.parse(user_info.response)
-      info = user_info.response
-      document.querySelector("username").innerHTML = user_info.response.name
+      //const user_info = api_get("api/v1/me", xhr.response.access_token)
+      //user_info = JSON.parse(user_info.response)
+      //info = user_info.response
+      //document.querySelector("username").innerHTML = user_info.response.name
+
+      makeAPIRequest("api/v1/me", xhr.response.access_token).then((result) => {
+        info = result
+        document.querySelector("username").innerHTML = result.name
+      });
+
     }
   };
   xhr.send(`grant_type=authorization_code&code=${code}&redirect_uri=https://adhesivecheese.github.io/yair-web/callback.html`);
 
 }, false);
 
+/*
 function api_get(endpoint, token) {
   const xhr = new XMLHttpRequest();
   xhr.open("GET", "https://oauth.reddit.com/" + endpoint, false);
@@ -51,6 +58,24 @@ function api_get(endpoint, token) {
   xhr.send();
   return xhr
 }
+*/
+function makeAPIRequest(endpoint, token) {
+  const myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+  myHeaders.append('Authorization', "bearer " + token);
+  url = "https://oauth.reddit.com/" + endpoint
+
+  return fetch(url, {headers: myHeaders,}).then((response) => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Request failed:', response.status);
+    }
+  }).catch((error) => {
+      console.error('Error:', error);
+  });
+}
+
 
 </script>
 
