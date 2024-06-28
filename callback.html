@@ -34,8 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      responseTest = xhr.responseJSON
-      console.log(xhr.responseJSON)
+      responseTest = xhr.response
+      //console.log(xhr.responseJSON)
+      console.log(xhr.response)
     }
   };
   xhr.send(`grant_type=authorization_code&code=${code}&redirect_uri=https://adhesivecheese.github.io/yair-web/callback.html`);
