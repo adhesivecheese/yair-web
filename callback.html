@@ -48,9 +48,10 @@ function api_get(endpoint, token) {
   xhr.open("GET", "https://oauth.reddit.com/" + endpoint, true);
   xhr.responseType = 'json';
   xhr.setRequestHeader("Authorization", "bearer " + token);
-  xhr.onreadystatechange = () => {
+  xhr.onreadystatechange = async () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      return xhr.response
+      response = await xhr.response
+      return response
     }
   };
   xhr.send();
