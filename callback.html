@@ -14,4 +14,31 @@
         </div>
   </section>
   </body>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const code = urlParams.get('code')
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", "https://www.reddit.com/api/v1/access_token", true);
+  xhr.responseType = 'json';
+
+  // Send the proper header information along with the request
+  xhr.setRequestHeader("Authentication", "application/x-www-form-urlencoded");
+
+  xhr.onreadystatechange = () => {
+    // Call a function when the state changes.
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      // Request finished. Do processing here.
+    }
+  };
+  xhr.send(`grant_type=authorization_code&code=${code}&redirect_uri=https://adhesivecheese.github.io/yair-web/callback.html`);
+
+}, false);
+
+</script>
+
 </html>
