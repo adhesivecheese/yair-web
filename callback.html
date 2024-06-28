@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
   xhr.open("POST", "https://www.reddit.com/api/v1/access_token", true);
   xhr.responseType = 'json';
 
+  xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
   xhr.setRequestHeader("Authentication", "Basic " + btoa("UBmFQRdzisR5CANmMfzAjw:MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ"));
 
   xhr.onreadystatechange = () => {
