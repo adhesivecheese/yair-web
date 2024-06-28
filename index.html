@@ -1,17 +1,51 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>YAIR</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
-  </head>
-  <body>
-  <section class="section">
-    <div class="container">
-        <div class="has-text-centered">
-            <a href="https://www.reddit.com/api/v1/authorize?client_id=UBmFQRdzisR5CANmMfzAjw&response_type=code&state=changeme&redirect_uri=https://adhesivecheese.github.io/yair-web/callback.html&duration=permanent&scope=identity,privatemessages" class="button">Authorize with Reddit</a>
-        </div>
-  </section>
-  </body>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>YAIR-WEB: Authorize</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
+		<script src="nav.js"></script>
+	</head>
+	<body>
+		<nav class="navbar" role="navigation" aria-label="main navigation">
+			<div class="navbar-brand">
+				<a class="navbar-item" href="index.html">
+					YAIR-WEB
+				</a>
+				<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample"><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span></a>
+			</div>
+			<div id="navbarBasicExample" class="navbar-menu">
+				<div class="navbar-start">
+				</div>
+				<div class="navbar-end">
+					<div class="navbar-item">
+						<a href="about.html" class="navbar-item"> About </a>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<section class="section">
+			<div class="container">
+				<div class="content">
+					<h1 class="has-text-centered">Welcome to YAIR-WEB!</h1>
+					<p>
+						YAIR-WEB is your Reddit inbox, reloaded. 
+						Click the "Authorize with Reddit" button below to allow YAIR-WEB to access your 
+						account to send and recieve private messages. YAIR-WEB does <strong>not</strong> 
+						have access to your password, and you can see exactly what YAIR-WEB will have 
+						access to before you allow it to connect to your Reddit account.
+					</p>
+					<p>
+						Please note that you'll need to be logged into the Reddit account you wish to 
+						before clicking the Authorize button below. Additionally, if you're accessing 
+						YAIR-WEB from an incognito window, YAIR-WEB specific features (folder/archiving) 
+						will not save after you close the window, nor will your authorization be stored.
+					</p>
+				</div>
+				<div class="has-text-centered">
+					<a href="https://www.reddit.com/api/v1/authorize?client_id=UBmFQRdzisR5CANmMfzAjw&response_type=code&state=changeme&redirect_uri=https://adhesivecheese.github.io/yair-web/callback.html&duration=permanent&scope=identity,privatemessages" class="button">Authorize with Reddit</a>
+				</div>
+		</section>
+	</body>
 </html>
