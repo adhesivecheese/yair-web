@@ -24,14 +24,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "https://www.reddit.com/api/v1/access_token", true);
-  //xhr.open("POST", "https://www.reddit.com/api/v1/access_token", true, "UBmFQRdzisR5CANmMfzAjw", "MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ");
   
-  //xhr.responseType = 'json';
+  xhr.responseType = 'json';
 
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   
   xhr.setRequestHeader("Access-Control-Allow-Origin", "*")
-  //xhr.setRequestHeader("Authentication", "Basic " + btoa("UBmFQRdzisR5CANmMfzAjw:MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ"));
+  xhr.setRequestHeader("Authorization", "Basic " + btoa("UBmFQRdzisR5CANmMfzAjw:MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ"));
 
   xhr.onreadystatechange = () => {
     // Call a function when the state changes.
