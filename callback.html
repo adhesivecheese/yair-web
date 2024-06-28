@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
       sessionStorage.setItem("access-token", xhr.response.access_token);
       sessionStorage.setItem("refresh-token", xhr.response.refresh_token)
       const user_info = api_get("api/v1/me", xhr.response.access_token)
-      user_info = JSON.parse(user_info)
+      user_info = JSON.parse(user_info.response)
       info = user_info.response
       document.querySelector("username").innerHTML = user_info.response.name
     }
