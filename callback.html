@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
   xhr.setRequestHeader("Authorization", "Basic " + btoa("UBmFQRdzisR5CANmMfzAjw:MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ"));
   xhr.onreadystatechange = async () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      console.log(xhr.response)
       sessionStorage.setItem("access-token", xhr.response.access_token);
       sessionStorage.setItem("refresh-token", xhr.response.refresh_token)
       const user_info = await api_get("api/v1/me", xhr.response.access_token)
@@ -43,14 +42,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 }, false);
 
-function api_get(endpoint, token) {
+async function api_get(endpoint, token) {
   const xhr = new XMLHttpRequest();
   xhr.open("GET", "https://oauth.reddit.com/" + endpoint, true);
   xhr.responseType = 'json';
   xhr.setRequestHeader("Authorization", "bearer " + token);
-  xhr.onreadystatechange = async () => {
+  xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      response = await xhr.response
       return response
     }
   };
