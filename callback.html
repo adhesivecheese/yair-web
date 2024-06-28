@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function api_get(endpoint, token) {
   const xhr = new XMLHttpRequest();
-  xhr.open("GET", "https://oauth.reddit.com/" + endpoint, true);
+  xhr.open("GET", "https://oauth.reddit.com/" + endpoint, false);
   xhr.responseType = 'json';
   xhr.setRequestHeader("Authorization", "bearer " + token);
   xhr.send();
