@@ -27,8 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
   //xhr.responseType = 'json';
 
   xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-  xhr.setRequestHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  xhr.setRequestHeader("Access-Control-Allow-Methods", "*");
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   
 
   xhr.setRequestHeader("Authentication", "Basic " + btoa("UBmFQRdzisR5CANmMfzAjw:MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ"));
