@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const code = urlParams.get('code')
 
   const xhr = new XMLHttpRequest();
-  xhr.open("POST", "https://api.reddit.com/api/v1/access_token", true);
+  xhr.open("POST", "https://www.reddit.com/api/v1/access_token", true);
   xhr.responseType = 'json';
 
   xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
