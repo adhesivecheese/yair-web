@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
   xhr.onreadystatechange = () => {
     // Call a function when the state changes.
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      // Request finished. Do processing here.
+      console.log(this.response)
     }
   };
   xhr.send(`grant_type=authorization_code&code=${code}&redirect_uri=https://adhesivecheese.github.io/yair-web/callback.html`);
