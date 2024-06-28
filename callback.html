@@ -12,13 +12,11 @@
         <div class="has-text-centered">
             You have Authorized
         </div>
+        <div id="username"></div>
   </section>
   </body>
 
 <script>
-
-var responseTest = ""
-
 document.addEventListener('DOMContentLoaded', function() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -34,14 +32,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
   xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      responseTest = xhr.response
-      //console.log(xhr.responseJSON)
       console.log(xhr.response)
+      sessionStorage.setItem("access-token", xhr.response.access_token);
+      sessionStorage.setItem("refresh-token", xhr.response.refresh_token)
+      const user_info = api_get("api/v1/me", xhr.response.access_token)
+      document.querySelector("username").innerHTML = user_info.name
     }
   };
   xhr.send(`grant_type=authorization_code&code=${code}&redirect_uri=https://adhesivecheese.github.io/yair-web/callback.html`);
 
 }, false);
+
+function api_get(endpoint, token) {
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", "https://oauth.reddit.com/" + endpoint, true);
+  xhr.responseType = 'json';
+  xhr.setRequestHeader("Authorization", "bearer " + token);
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      console.log(xhr.response)
+      return xhr.response
+    }
+  };
+  xhr.send();
+}
 
 </script>
 
