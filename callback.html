@@ -17,12 +17,12 @@
   </body>
 
 <script>
+var info = ""
+
 document.addEventListener('DOMContentLoaded', function() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const code = urlParams.get('code')
-
-  var info = ""
 
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "https://www.reddit.com/api/v1/access_token", true);
