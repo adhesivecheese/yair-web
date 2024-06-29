@@ -1,0 +1,95 @@
+const redirect_uri = 'https://adhesivecheese.github.io/yair-web/callback.html'
+const client_id = "UBmFQRdzisR5CANmMfzAjw"
+const client_secret = "MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ"
+
+const auth_string = btoa(`${client_id}:${client_secret}`)
+
+document.addEventListener('DOMContentLoaded', function() {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const code = urlParams.get('code');
+    var body = new URLSearchParams();
+    body.append('grant_type', 'authorization_code');
+    body.append('code', code);
+    body.append('redirect_uri', redirect_uri);
+    fetch(
+        "https://www.reddit.com/api/v1/access_token"
+        , {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+                , 'Authorization': `Basic ${auth_string}`
+            }
+            , body: body
+        }
+    ).then(response => {
+        if (response.ok) { return response.json(); }
+        else { throw new Error('Request failed:', response.status); }
+    }).then(result => {
+        sessionStorage.setItem('access-token', result.access_token);
+        sessionStorage.setItem('refresh-token', result.refresh_token);
+        return makeAPIRequest('api/v1/me', result.access_token);
+    }).then(result => {
+        sessionStorage.setItem('name', result.name)
+        document.querySelector('#user_info').innerHTML = `You've now connected YAIR-WEB to Reddit for 
+            <a href="https://reddit.com/user/${result.name}">/u/${result.name}</a>!</div><div><button id="fetchButton" class="button" onclick="testFetchPMs()">Fetch PMs</button>`;
+    }).catch((error) => { console.error('Error:', error); });
+}, false);
+
+function makeAPIRequest(endpoint, token, method = "GET", params = null, body = null) {
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', "bearer " + token);
+    url = `https://oauth.reddit.com/${endpoint}`
+    if (params) {
+        url += params
+    }
+    var heaters = { headers: myHeaders }
+    if (!method == "GET") { heaters = {...heaters, method: method} }
+    if (body) { heaters = {...heaters, body: body} }
+    return fetch(url, heaters).then((response) => {
+        if (response.ok) { return response.json(); }
+        else { throw new Error('Request failed:', response.status); }
+    }).catch((error) => { console.error('Error:', error); });
+}
+
+async function testFetchPMs() {
+    button = document.querySelector("#fetchButton")
+    button.disabled = true
+    after = null
+    conversations = []
+    do {
+        endpoint = "/message/messages?limit=100"
+        if (after) { endpoint += `&after=${after}`}
+        newAfter = after
+        await makeAPIRequest(endpoint, sessionStorage.getItem("access-token")).then((batch) => {
+            console.log(`got ${batch.data.children.length} conversations after ${after}`)
+            button.innerHTML = `Fetched ${batch.data.children.length} conversations after ${after}`
+            batch.data.children.forEach((message) => {
+                    message = message.data
+                    authorized_user = sessionStorage.getItem("name")
+                    if (message.subreddit != null) {
+                        if (message.distinguished == "moderator" && message.dest != authorized_user) { return }
+                        if (message.dest != authorized_user && message.author.name != authorized_user) { return }
+                    }
+                    //TODO: These should go in a seperate bucket, not be discarded
+                    if (message.distinguished == "admin" || message.distinguished == "yes") {
+                        message.distinguished = "admin"
+                        return
+                    }
+                    conversations.push(message)
+                })
+            after = batch.data.after
+        })
+    } while (after != null);
+
+    html = ""
+    conversations.forEach((message) =>{
+        if (message.author == sessionStorage.getItem("name")) {
+            other_user = message.dest
+        } else {other_user = message.author}
+        html += `<div><a href=https://reddit.com/message/messages/${message.id}>${message.subject}</a> with ${other_user}</div>`
+    })
+    document.querySelector("#user_info").innerHTML=html
+    return conversations
+}
