@@ -53,7 +53,7 @@
 		const myHeaders = new Headers();
 		myHeaders.append('Content-Type', 'application/json');
 		myHeaders.append('Authorization', "bearer " + token);
-		url = `https://oauth.reddit.com/${endpoint}&raw_json=1`
+		url = `https://oauth.reddit.com/${endpoint}`
 		var params = { headers: myHeaders }
 		if (!method == "GET") { params = {...params, method: method} }
 		if (body) { params = {...params,body: body} }
