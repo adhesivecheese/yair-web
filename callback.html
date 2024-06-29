@@ -1,113 +1,67 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>YAIR</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
-  </head>
-  <body>
-  <section class="section">
-    <div class="container">
-        <div id="user_info" class="has-text-centered">
-            Checking for connection to Reddit...
-        </div>
-  </section>
-  </body>
-
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>YAIR</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.1/css/bulma.min.css">
+</head>
+<body>
+	<section class="section">
+		<div class="container">
+			<div id="user_info" class="has-text-centered"> Checking for connection to Reddit... </div>
+	</section>
+</body>
 <script>
-var info = ""
+	const redirect_uri = 'https://adhesivecheese.github.io/yair-web/callback.html'
+	const client_id = "UBmFQRdzisR5CANmMfzAjw"
+	const client_secret = "MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ"
+	const auth_string = btoa(`${client_id}:${client_secret}`)
 
-document.addEventListener('DOMContentLoaded', function() {
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const code = urlParams.get('code')
+	document.addEventListener('DOMContentLoaded', function() {
+		const queryString = window.location.search;
+		const urlParams = new URLSearchParams(queryString);
+		const code = urlParams.get('code');
+		var body = new URLSearchParams();
+		body.append('grant_type', 'authorization_code');
+		body.append('code', code);
+		body.append('redirect_uri', redirect_uri);
+		fetch(
+			"https://www.reddit.com/api/v1/access_token"
+			, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+					, 'Authorization': `Basic ${auth_string}`
+				}
+				, body: body
+			}
+		).then(response => {
+			if (response.ok) { return response.json(); }
+			else { throw new Error('Request failed:', response.status); }
+		}).then(result => {
+			sessionStorage.setItem('access-token', result.access_token);
+			sessionStorage.setItem('refresh-token', result.refresh_token);
+			return makeAPIRequest('api/v1/me', result.access_token);
+		}).then(result => {
+			document.querySelector('#user_info').innerHTML = `You've now connected YAIR-WEB to Reddit for 
+				<a href="https://reddit.com/user/${result.name}">/u/${result.name}</a>!`;
+		}).catch((error) => { console.error('Error:', error); });
+	}, false);
 
-
-  
-  var body = new URLSearchParams();
-  body.append('grant_type', 'authorization_code');
-  body.append('code', code);
-  body.append('redirect_uri', 'https://adhesivecheese.github.io/yair-web/callback.html');
-
-  fetch("https://www.reddit.com/api/v1/access_token", {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': `Basic ${btoa('UBmFQRdzisR5CANmMfzAjw:MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ')}`,
-    },
-    body: body,
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Request failed:', response.status);
-        }
-    })
-    .then(result => {
-        sessionStorage.setItem('access-token', result.access_token);
-        sessionStorage.setItem('refresh-token', result.refresh_token);
-        return makeAPIRequest('api/v1/me', result.access_token);
-    })
-    .then(result => {
-        document.querySelector('#user_info').innerHTML = `You've now connected YAIR-WEB to Reddit for <a href="https://reddit.com/user/${result.name}">/u/${result.name}</a>!`;
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-  });
-
-
-  /*
-  const xhr = new XMLHttpRequest();
-  xhr.open("POST", "https://www.reddit.com/api/v1/access_token", true);
-  xhr.responseType = 'json';
-  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  xhr.setRequestHeader("Authorization", "Basic " + btoa("UBmFQRdzisR5CANmMfzAjw:MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ"));
-  xhr.onreadystatechange = () => {
-    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      sessionStorage.setItem("access-token", xhr.response.access_token);
-      sessionStorage.setItem("refresh-token", xhr.response.refresh_token)
-      makeAPIRequest("api/v1/me", xhr.response.access_token).then((result) => {
-        info = result
-        document.querySelector("#user_info").innerHTML = `You've now connected YAIR-WEB to Reddit for <a href="https://reddit.com/user/${result.name}">/u/${result.name}</a>!`
-      });
-
-    }
-  };
-  xhr.send(`grant_type=authorization_code&code=${code}&redirect_uri=https://adhesivecheese.github.io/yair-web/callback.html`);
-
-*/
-}, false);
-
-function makeAPIRequest(endpoint, token, method="GET", body=null) {
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Authorization', "bearer " + token);
-  url = "https://oauth.reddit.com/" + endpoint
-
-  var params = {
-    headers: myHeaders,
-  }
-  if (!method=="GET") {
-    params = {...params, method: method,}
-  }
-  if (body) {
-    params = {...params, body: body,}
-  }
-
-  return fetch(url, params).then((response) => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error('Request failed:', response.status);
-    }
-  }).catch((error) => {
-      console.error('Error:', error);
-  });
-}
-
-
+	function makeAPIRequest(endpoint, token, method = "GET", body = null) {
+		const myHeaders = new Headers();
+		myHeaders.append('Content-Type', 'application/json');
+		myHeaders.append('Authorization', "bearer " + token);
+		url = `https://oauth.reddit.com/${endpoint}&raw_json=1`
+		var params = { headers: myHeaders }
+		if (!method == "GET") { params = {...params, method: method} }
+		if (body) { params = {...params,body: body} }
+		return fetch(url, params).then((response) => {
+			if (response.ok) { return response.json(); }
+			else { throw new Error('Request failed:', response.status); }
+		}).catch((error) => { console.error('Error:', error); });
+	}
 </script>
 
 </html>
