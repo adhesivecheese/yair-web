@@ -25,33 +25,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
   
-  const myHeaders = new Headers();
-  myHeaders.append('Content-Type', "application/x-www-form-urlencoded");
-  myHeaders.append('Authorization', "basic " + btoa("UBmFQRdzisR5CANmMfzAjw:MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ"));
-  url = "https://www.reddit.com/api/v1/access_token"
   var body = new URLSearchParams();
   body.append('grant_type', 'authorization_code');
   body.append('code', code);
   body.append('redirect_uri', 'https://adhesivecheese.github.io/yair-web/callback.html');
-  params = {
-    method: 'POST'
-    , headers: myHeaders
-    , body: `grant_type=authorization_code&code=${code}&redirect_uri=https://adhesivecheese.github.io/yair-web/callback.html`
-  }
-  return fetch(url, params).then((response) => {
-    if (response.ok) {
-      console.log(response)
-      response = response.json()
-      console.log(response)
-      sessionStorage.setItem("access-token", response.access_token);
-      sessionStorage.setItem("refresh-token", response.refresh_token)
-      makeAPIRequest("api/v1/me", response.access_token).then((result) => {
-        result = result.json()
-        document.querySelector("#user_info").innerHTML = `You've now connected YAIR-WEB to Reddit for <a href="https://reddit.com/user/${result.name}">/u/${result.name}</a>!`
-      });
-    } else {
-      throw new Error('Request failed:', response.status);
-    }
+
+  fetch("https://www.reddit.com/api/v1/access_token", {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `Basic ${btoa('UBmFQRdzisR5CANmMfzAjw:MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ')}`,
+    },
+    body: data,
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Request failed:', response.status);
+        }
+    })
+    .then(result => {
+        sessionStorage.setItem('access-token', result.access_token);
+        sessionStorage.setItem('refresh-token', result.refresh_token);
+        return makeAPIRequest('api/v1/me', result.access_token);
+    })
+    .then(result => {
+        document.querySelector('#user_info').innerHTML = `You've now connected YAIR-WEB to Reddit for <a href="https://reddit.com/user/${result.name}">/u/${result.name}</a>!`;
+    })
   }).catch((error) => {
       console.error('Error:', error);
   });
