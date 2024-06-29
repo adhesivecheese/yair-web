@@ -29,10 +29,10 @@ document.addEventListener('DOMContentLoaded', function() {
   myHeaders.append('Content-Type', "application/x-www-form-urlencoded");
   myHeaders.append('Authorization', "basic " + btoa("UBmFQRdzisR5CANmMfzAjw:MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ"));
   url = "https://www.reddit.com/api/v1/access_token"
-  body = new URLSearchParams();
-  data.append('grant_type', 'authorization_code');
-  data.append('code', code);
-  data.append('redirect_uri', 'https://adhesivecheese.github.io/yair-web/callback.html');
+  var body = new URLSearchParams();
+  body.append('grant_type', 'authorization_code');
+  body.append('code', code);
+  body.append('redirect_uri', 'https://adhesivecheese.github.io/yair-web/callback.html');
   params = {
     method: 'POST'
     , headers: myHeaders
