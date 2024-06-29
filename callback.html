@@ -56,7 +56,7 @@
 		url = `https://oauth.reddit.com/${endpoint}`
 		var params = { headers: myHeaders }
 		if (!method == "GET") { params = {...params, method: method} }
-		if (body) { params = {...params,body: body} }
+		if (body) { params = {...params, body: body} }
 		return fetch(url, params).then((response) => {
 			if (response.ok) { return response.json(); }
 			else { throw new Error('Request failed:', response.status); }
