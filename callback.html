@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   return fetch(url, params).then((response) => {
     if (response.ok) {
+      response = response.json()
       sessionStorage.setItem("access-token", response.access_token);
       sessionStorage.setItem("refresh-token", response.refresh_token)
       makeAPIRequest("api/v1/me", response.access_token).then((result) => {
