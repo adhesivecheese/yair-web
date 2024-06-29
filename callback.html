@@ -23,6 +23,34 @@ document.addEventListener('DOMContentLoaded', function() {
   const urlParams = new URLSearchParams(queryString);
   const code = urlParams.get('code')
 
+
+  
+  const myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+  myHeaders.append('Authorization', "basic " + btoa("UBmFQRdzisR5CANmMfzAjw:MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ"));
+  url = "https://www.reddit.com/api/v1/access_token"
+  params = {
+    method: 'POST'
+    , headers: myHeaders
+    , body: `grant_type=authorization_code&code=${code}&redirect_uri=https://adhesivecheese.github.io/yair-web/callback.html`
+  }
+  return fetch(url, params).then((response) => {
+    if (response.ok) {
+      sessionStorage.setItem("access-token", response.access_token);
+      sessionStorage.setItem("refresh-token", response.refresh_token)
+      makeAPIRequest("api/v1/me", response.access_token).then((result) => {
+        result = result.json()
+        document.querySelector("#user_info").innerHTML = `You've now connected YAIR-WEB to Reddit for <a href="https://reddit.com/user/${result.name}">/u/${result.name}</a>!`
+      });
+    } else {
+      throw new Error('Request failed:', response.status);
+    }
+  }).catch((error) => {
+      console.error('Error:', error);
+  });
+
+
+  /*
   const xhr = new XMLHttpRequest();
   xhr.open("POST", "https://www.reddit.com/api/v1/access_token", true);
   xhr.responseType = 'json';
@@ -40,17 +68,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   };
   xhr.send(`grant_type=authorization_code&code=${code}&redirect_uri=https://adhesivecheese.github.io/yair-web/callback.html`);
+  */
 
 }, false);
 
 
-function makeAPIRequest(endpoint, token) {
+function makeAPIRequest(endpoint, token, method="GET", body=null) {
   const myHeaders = new Headers();
   myHeaders.append('Content-Type', 'application/json');
   myHeaders.append('Authorization', "bearer " + token);
   url = "https://oauth.reddit.com/" + endpoint
 
-  return fetch(url, {headers: myHeaders,}).then((response) => {
+  var params = {
+    headers: myHeaders,
+  }
+  if (!method=="GET") {
+    params = {...params, method: method,}
+  }
+  if (body) {
+    params = {...params, body: body,}
+  }
+
+  return fetch(url, params).then((response) => {
     if (response.ok) {
       return response.json();
     } else {
