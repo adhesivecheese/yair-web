@@ -68,7 +68,7 @@
 
 	function testFetchPMs() {
 		after = null
-		newAfter = "a"
+		newAfter = "t4_undefined_placeholder"
 		conversations = []
 		while (after != newAfter) {
 			endpoint = "/message/messages?limit=100"
@@ -81,6 +81,7 @@
 			batch.data.children.forEach((child) => {conversations.push(child.data)})
 			after = batch.data.after
 		}
+		return conversations
 	}
 </script>
 
