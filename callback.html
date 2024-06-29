@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(result => {
         document.querySelector('#user_info').innerHTML = `You've now connected YAIR-WEB to Reddit for <a href="https://reddit.com/user/${result.name}">/u/${result.name}</a>!`;
     })
-  }).catch((error) => {
+    .catch((error) => {
       console.error('Error:', error);
   });
 
@@ -76,10 +76,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   };
   xhr.send(`grant_type=authorization_code&code=${code}&redirect_uri=https://adhesivecheese.github.io/yair-web/callback.html`);
-  */
 
+*/
 }, false);
-
 
 function makeAPIRequest(endpoint, token, method="GET", body=null) {
   const myHeaders = new Headers();
