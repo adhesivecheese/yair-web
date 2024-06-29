@@ -46,7 +46,7 @@
 		}).then(result => {
 			sessionStorage.setItem('name', result.name)
 			document.querySelector('#user_info').innerHTML = `You've now connected YAIR-WEB to Reddit for 
-				<a href="https://reddit.com/user/${result.name}">/u/${result.name}</a>!</div><div><button id="fetchButton" onclick="testFetchPMs()">Fetch PMs</button>`;
+				<a href="https://reddit.com/user/${result.name}">/u/${result.name}</a>!</div><div><button id="fetchButton" class="button" onclick="testFetchPMs()">Fetch PMs</button>`;
 		}).catch((error) => { console.error('Error:', error); });
 	}, false);
 
