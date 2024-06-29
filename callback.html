@@ -49,18 +49,38 @@
 		}).catch((error) => { console.error('Error:', error); });
 	}, false);
 
-	function makeAPIRequest(endpoint, token, method = "GET", body = null) {
+	function makeAPIRequest(endpoint, token, method = "GET", params = null, body = null) {
 		const myHeaders = new Headers();
 		myHeaders.append('Content-Type', 'application/json');
 		myHeaders.append('Authorization', "bearer " + token);
 		url = `https://oauth.reddit.com/${endpoint}`
-		var params = { headers: myHeaders }
-		if (!method == "GET") { params = {...params, method: method} }
-		if (body) { params = {...params, body: body} }
-		return fetch(url, params).then((response) => {
+		if (params) {
+			url += params
+		}
+		var heaters = { headers: myHeaders }
+		if (!method == "GET") { heaters = {...heaters, method: method} }
+		if (body) { heaters = {...heaters, body: body} }
+		return fetch(url, heaters).then((response) => {
 			if (response.ok) { return response.json(); }
 			else { throw new Error('Request failed:', response.status); }
 		}).catch((error) => { console.error('Error:', error); });
+	}
+
+	function testFetchPMs() {
+		after = null
+		newAfter = "a"
+		conversations = []
+		while (after != newAfter) {
+			endpoint = "/message/messages?limit=100"
+			if (after) {
+				endpoint += `&after=${after}`
+			}
+			newAfter = after
+			batch = makeAPIRequest(endpoint, sessionStorage.getItem("access-token"))
+			console.log(`got ${batch.length} conversations after ${after}`)
+			batch.data.children.forEach((child) => {conversations.push(child.data)})
+			after = batch.data.after
+		}
 	}
 </script>
 
