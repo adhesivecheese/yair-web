@@ -1,11 +1,3 @@
-const redirect_uri = 'https://adhesivecheese.github.io/yair-web/callback.html'
-const client_id = "UBmFQRdzisR5CANmMfzAjw"
-const client_secret = "MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ"
-const duration = "permanent"
-const scope = "identity,privatemessages"
-
-
-
 class Reddit {
     constructor(redirect_uri, client_id, client_secret, duration, scope) {
         this.redirect_uri = redirect_uri
@@ -65,7 +57,7 @@ class Reddit {
         }).then(result => {
             this.access_token = result.access_token;
             this.refresh_token = result.refresh_token;
-            return makeAPIRequest('api/v1/me', this.access_token);
+            return this.makeAPIGetRequest('api/v1/me', this.access_token);
         }).then(result => {
                 this.username = result.name;
         }).catch((error) => { console.error('Error:', error); });
@@ -133,15 +125,13 @@ class Reddit {
     }
 }
 
-
-
-
-
-
-
+// All this belongs elsewhere
 r = null
-
-
+const redirect_uri = 'https://adhesivecheese.github.io/yair-web/callback.html'
+const client_id = "UBmFQRdzisR5CANmMfzAjw"
+const client_secret = "MAJ7oNMMaNVAComGy2AIQfMRaLlDgQ"
+const duration = "permanent"
+const scope = "identity,privatemessages"
 document.addEventListener('DOMContentLoaded', function() {
     r = new Reddit(redirect_uri,client_id,client_secret,duration,scope)
     r.get_token_from_code().then(()=>{
