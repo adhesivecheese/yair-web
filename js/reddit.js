@@ -146,28 +146,11 @@ document.addEventListener('DOMContentLoaded', function() {
     r = new Reddit(redirect_uri,client_id,client_secret,duration,scope)
     r.get_token_from_code().then(()=>{
         document.querySelector('#user_info').innerHTML = `You've now connected YAIR-WEB to Reddit for 
-            <a href="https://reddit.com/user/${r.username}">/u/${r.username}</a>!</div><div><button id="fetchButton" class="button" onclick="initialFetch()">Fetch PMs</button>`;
+            <a href="https://reddit.com/user/${r.username}">/u/${r.username}</a>!</div><div><button id="fetchButton" class="button" onclick="fetchAll()">Fetch PMs</button>`;
     })
 }, false);
 
-function makeAPIRequest(endpoint, token, method = "GET", params = null, body = null) {
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append('Authorization', "bearer " + token);
-    url = `https://oauth.reddit.com/${endpoint}`
-    if (params) {
-        url += params
-    }
-    var heaters = { headers: myHeaders }
-    if (!method == "GET") { heaters = {...heaters, method: method} }
-    if (body) { heaters = {...heaters, body: body} }
-    return fetch(url, heaters).then((response) => {
-        if (response.ok) { return response.json(); }
-        else { throw new Error('Request failed:', response.status); }
-    }).catch((error) => { console.error('Error:', error); });
-}
-
-async function InitialFetch() {
+async function fetchAll() {
     button = document.querySelector("#fetchButton")
     button.disabled = true
     after = null
