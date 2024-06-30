@@ -67,7 +67,7 @@ class Reddit {
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
         myHeaders.append('Authorization', "bearer " + token);
-        url = `https://oauth.reddit.com/${endpoint}?limit=100&raw_json=1`
+        let url = `https://oauth.reddit.com/${endpoint}`
         if (params) { url += params }
         return fetch(url, { headers: myHeaders }).then((response) => {
             if (response.ok) { return response.json(); }
