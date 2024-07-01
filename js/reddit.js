@@ -17,8 +17,8 @@ class Reddit {
     get_endpoint(endpoint) {
         let endpoints = {
             me: "api/v1/me"
-            , messages: "message/messages?limit=100&raw_json=1"
-            , sent: "message/sent?limit=100&raw_json=1"
+            , messages: "message/messages?limit=09&raw_json=1"
+            , sent: "message/sent?limit=90&raw_json=1"
             , unread: "message/unread"
             , comment_replies: "message/comments"
             , post_replies: "message/selfreply"
@@ -81,7 +81,7 @@ class Reddit {
         do {
             let endpoint = this.get_endpoint("messages")
             if (after) { endpoint += `&after=${after}`}
-            await makeAPIRequest(endpoint, this.access_token).then((batch) => {
+            await this.makeAPIGetRequest(endpoint, this.access_token).then((batch) => {
                 console.log(`messages: got ${batch.data.children.length} conversations after ${after}`)
                 batch.data.children.forEach((message) => {
                         message = message.data
@@ -93,30 +93,7 @@ class Reddit {
                         if (message.distinguished == "admin" || message.distinguished == "yes") {
                             message.distinguished = "admin"
                         }
-                        conversations.push(message)
-                    })
-                after = batch.data.after
-            })
-        } while (after != null);
-
-        after = null
-        do {
-            let endpoint = this.get_endpoint("sent")
-            if (after) { endpoint += `&after=${after}`}
-            await makeAPIRequest(endpoint, this.access_token).then((batch) => {
-                console.log(`sent: got ${batch.data.children.length} conversations after ${after}`)
-                batch.data.children.forEach((message) => {
-                        message = message.data
-                        let authorized_user = this.username
-                        if (message.subreddit != null) {
-                            if (message.distinguished == "moderator" && message.dest != authorized_user) { return }
-                            if (message.dest != authorized_user && message.author.name != authorized_user) { return }
-                        }
-                        if (message.distinguished == "admin" || message.distinguished == "yes") {
-                            message.distinguished = "admin"
-                        }
-                        if (message.first_message_name) {return}
-                        conversations.push(message)
+                        conversations.indexOf(message) === -1 ? conversations.push(message) : console.log(`${message.id} already exists`);
                     })
                 after = batch.data.after
             })
@@ -134,11 +111,15 @@ const duration = "permanent"
 const scope = "identity,privatemessages"
 document.addEventListener('DOMContentLoaded', function() {
     r = new Reddit(redirect_uri,client_id,client_secret,duration,scope)
-    r.get_token_from_code().then(()=>{
+   set_user()
+}, false);
+
+async function set_user() {
+    await r.get_token_from_code().then(()=>{
         document.querySelector('#user_info').innerHTML = `You've now connected YAIR-WEB to Reddit for 
             <a href="https://reddit.com/user/${r.username}">/u/${r.username}</a>!</div><div><button id="fetchButton" class="button" onclick="fetchAll()">Fetch PMs</button>`;
     })
-}, false);
+}
 
 async function fetchAll() {
     button = document.querySelector("#fetchButton")
