@@ -129,8 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function set_user() {
     await r.get_token_from_code().then(()=>{
-        document.querySelector('#user_info').innerHTML = `You've now connected YAIR-WEB to Reddit for 
-            <a href="https://reddit.com/user/${r.username}">/u/${r.username}</a>!</div><div><button id="fetchButton" class="button" onclick="fetchAll()">Fetch PMs</button>`;
+        document.querySelector('#user_info').innerHTML = `You've now connected YAIR-WEB to Reddit!</div><div><button id="fetchButton" class="button" onclick="fetchAll()">Fetch PMs</button>`;
     })
 }
 
