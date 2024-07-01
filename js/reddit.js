@@ -66,6 +66,7 @@ class Reddit {
     async makeAPIGetRequest(endpoint, token, params = null) {
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
+        myHeaders.append('access-control-expose-headers', "*") //this might break things
         myHeaders.append('Authorization', "bearer " + token);
         let url = `https://oauth.reddit.com/${endpoint}`
         if (params) { url += params }
