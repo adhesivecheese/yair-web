@@ -79,13 +79,15 @@ class Reddit {
     }
 
     async initialFetch() {
+        let count = 0
         let conversations = []
         let after = null
+        let endpoint = this.get_endpoint("messages")
         do {
-            let endpoint = this.get_endpoint("messages")
+            count += 1
             if (after) { endpoint += `&after=${after}`}
             await this.makeAPIGetRequest(endpoint, this.access_token).then((batch) => {
-                console.log(`messages: got ${batch.data.children.length} conversations after ${after}`)
+                console.log(`messages (page ${count}): got ${batch.data.children.length} conversations after ${after}`)
                 batch.data.children.forEach((message) => {
                         message = message.data
                         let authorized_user = this.username
