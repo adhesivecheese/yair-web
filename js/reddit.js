@@ -125,7 +125,8 @@ async function fetchAll() {
     button = document.querySelector("#fetchButton")
     button.disabled = true
     await r.initialFetch().then((conversations) => {
-    html = ""
+        console.log(conversations)
+        html = ""
         conversations.forEach((message) =>{
             if (message.author == r.username) { other_user = message.dest }
             else {other_user = message.author}
