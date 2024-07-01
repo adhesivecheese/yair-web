@@ -9,7 +9,11 @@ class Reddit {
         this.access_token = null
         this.refresh_token = null
         this.username = null
+        this.ratelimit_reset = null
+        this.ratelimit_used = null
+        this.ratelimit_remaining = null
 
+        
         this.auth_string = btoa(`${this.client_id}:${this.client_secret}`)
 
     }
@@ -66,13 +70,14 @@ class Reddit {
     async makeAPIGetRequest(endpoint, token, params = null) {
         const myHeaders = new Headers();
         myHeaders.append('Content-Type', 'application/json');
-        myHeaders.append('access-control-expose-headers', "*") //this might break things
         myHeaders.append('Authorization', "bearer " + token);
         let url = `https://oauth.reddit.com/${endpoint}`
         if (params) { url += params }
         return fetch(url, { headers: myHeaders }).then((response) => {
             if (response.ok) {
-                console.log("response= ", response); 
+                this.ratelimit_reset = parseInt(response.headers.get('x-ratelimit-reset'))
+                this.ratelimit_used = parseInt(response.headers.get('x-ratelimit-used'))
+                this.ratelimit_remaining = parseInt(response.headers.get('x-ratelimit-remaining'))
                 return response.json();
             }
             else { throw new Error('Request failed:', response.status); }
