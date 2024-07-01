@@ -93,7 +93,7 @@ class Reddit {
                         if (message.distinguished == "admin" || message.distinguished == "yes") {
                             message.distinguished = "admin"
                         }
-                        conversations.indexOf(message) === -1 ? conversations.push(message) : console.log(`${message.id} already exists`);
+                        conversations = [...new Set([...conversations, message])];
                     })
                 after = batch.data.after
             })
