@@ -124,7 +124,6 @@ async function set_user() {
 async function fetchAll() {
     button = document.querySelector("#fetchButton")
     button.disabled = true
-    after = null
     await r.initialFetch().then((conversations) => {
     html = ""
         conversations.forEach((message) =>{
