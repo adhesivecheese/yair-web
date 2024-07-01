@@ -17,8 +17,8 @@ class Reddit {
     get_endpoint(endpoint) {
         let endpoints = {
             me: "api/v1/me"
-            , messages: "message/messages?limit=09&raw_json=1"
-            , sent: "message/sent?limit=90&raw_json=1"
+            , messages: "message/messages?limit=100&raw_json=1"
+            , sent: "message/sent?limit=100&raw_json=1"
             , unread: "message/unread"
             , comment_replies: "message/comments"
             , post_replies: "message/selfreply"
