@@ -128,9 +128,8 @@ async function fetchAll() {
     await r.initialFetch().then((conversations) => {
     html = ""
         conversations.forEach((message) =>{
-            if (message.author == sessionStorage.getItem("name")) {
-                other_user = message.dest
-            } else {other_user = message.author}
+            if (message.author == r.username) { other_user = message.dest }
+            else {other_user = message.author}
             html += `<div><a href=https://reddit.com/message/messages/${message.id}>${message.subject}</a> with ${other_user}</div>`
         })
         document.querySelector("#user_info").innerHTML=html
