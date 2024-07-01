@@ -71,7 +71,7 @@ class Reddit {
         if (params) { url += params }
         return fetch(url, { headers: myHeaders }).then((response) => {
             if (response.ok) {
-                console.log("response.headers =", response.headers); 
+                console.log("response= ", response); 
                 return response.json();
             }
             else { throw new Error('Request failed:', response.status); }
@@ -81,10 +81,11 @@ class Reddit {
     async initialFetch() {
         let count = 0
         let conversations = []
+        let logged_ids = []
         let after = null
-        let endpoint = this.get_endpoint("messages")
         do {
             count += 1
+            let endpoint = this.get_endpoint("messages")
             if (after) { endpoint += `&after=${after}`}
             await this.makeAPIGetRequest(endpoint, this.access_token).then((batch) => {
                 console.log(`messages (page ${count}): got ${batch.data.children.length} conversations after ${after}`)
@@ -98,7 +99,8 @@ class Reddit {
                         if (message.distinguished == "admin" || message.distinguished == "yes") {
                             message.distinguished = "admin"
                         }
-                        conversations = [...new Set([...conversations, message])];
+                        if (!logged_ids.includes(message.id) ) {conversations.push(message)}
+                        logged_ids.push(message.id)
                     })
                 after = batch.data.after
             })
