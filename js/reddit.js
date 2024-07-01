@@ -70,7 +70,10 @@ class Reddit {
         let url = `https://oauth.reddit.com/${endpoint}`
         if (params) { url += params }
         return fetch(url, { headers: myHeaders }).then((response) => {
-            if (response.ok) { return response.json(); }
+            if (response.ok) {
+                console.log("response.headers =", response.headers); 
+                return response.json();
+            }
             else { throw new Error('Request failed:', response.status); }
         }).catch((error) => { console.error('Error:', error); });
     }
