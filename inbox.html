@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html data-theme="light">
+
+<head>
+	<title>Inbox (100)</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+	<link rel="stylesheet" href="https://unpkg.com/bulma@1.0.0/css/bulma.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/inbox.css"/>
+</head>
+
+<body>
+    <nav class="navbar">
+
+		<div class="navbar-brand">
+			<a id="aside-toggle" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+				<span aria-hidden="true"></span>
+				<span aria-hidden="true"></span>
+				<span aria-hidden="true"></span>
+				<span aria-hidden="true"></span>
+			  </a>
+			<a class="navbar-item" href="#">
+			  <img src="img/Rmail.png">		
+			</a>
+		
+
+		  </div>
+            <div id="navMenu" class="navbar-menu">
+                <div class="navbar-start">
+                </div>
+
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <button id="settingsButton" class="hoverbutton fa fa-cog"></button>
+                    </div>
+                </div>
+            </div>
+    </nav>
+
+    <div class="is-link is-fullheight-with-navbar columns">
+		<aside id="sideNav" class="aside column is-2">
+			<div>
+				<div class="compose has-text-centered">
+					<a class="button is-danger is-block is-bold">
+						<span class="icon">
+							<i class="fa fa-pencil" aria-hidden="true"></i>
+						</span>
+						<span class="compose">Compose</span>
+			  		</a>
+				</div>
+				<div class="main">
+					<a href="#" class="item active"><span class="icon"><i class="fa fa-inbox"></i></span><span class="name">Inbox</span><span class="is-pulled-right mailCount">(100)</span></a>
+					<a href="#" class="item"><span class="icon"><i class="fa fa-star"></i></span><span class="name">Starred</span></a>
+					<a href="#" class="item"><span class="icon"><i class="fa fa-file"></i></span><span class="name">Drafts</span></a>
+					<a href="#" class="item"><span class="icon"><i class="fa fa-archive"></i></span><span class="name">Archived</span></a>
+				</div>
+			</div>
+		</aside>
+		<div id="mailbox" class="column">
+			<div id="mailbox-header" class="navbar-menu">
+				<div class="navbar-start">
+					<button class="button">Button</button>
+					<button class="button">Button</button>
+					<button class="button">Button</button>
+				</div>
+			  
+				<div class="navbar-end">
+					<span>Last Update: <span class="lastUpdate">NaN</span></span>
+				</div>
+			  </div>
+			<div id="mailbox-content">
+			</div>
+		</div>
+		<aside id="settings" class="aside column hidden"></aside>
+    </div>
+
+</body>
+
+<script>
+document.getElementById("aside-toggle").addEventListener("click", toggleNav);
+
+function toggleNav() {
+	document.querySelector("#sideNav").classList.toggle("hidden")
+	document.querySelector("#mailbox").classList.toggle("collapsedSideNav")
+}
+
+document.querySelector("#settingsButton").addEventListener("click", toggleSettings);
+function toggleSettings() {
+	document.querySelector("#settings").classList.toggle("hidden")
+}
+
+</script>
+
+</html>

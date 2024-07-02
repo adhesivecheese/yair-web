@@ -1,0 +1,163 @@
+body {
+	height: 100vh;
+}
+
+html {
+	overflow: hidden;
+  }
+
+.is-fullheight-with-navbar.columns {
+	margin: 0
+}
+
+#mailbox, #settings {
+	background-color: white;
+	border-radius: 16px;
+	overflow: hidden;
+	height:calc(100vh - var(--bulma-navbar-height) - 16px);
+	margin-bottom: 16px;
+	padding: 0;
+	margin-right: 16px;
+}
+
+
+
+#mailbox-header {
+    max-height: 48px;
+    padding: 10px;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+#mailbox-content {
+	overflow: auto;
+	flex-grow:1;
+}
+
+#mailbox-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+#mailbox-content::-webkit-scrollbar-track {
+  background: #fff; 
+}
+ 
+/* Handle */
+#mailbox-content::-webkit-scrollbar-thumb {
+  background: #ccc; 
+}
+
+/* Handle on hover */
+#mailbox-content::-webkit-scrollbar-thumb:hover {
+  background: #919191;
+}
+
+/* Track on hover*/
+#mailbox-content::-webkit-scrollbar-track:hover {
+  background: #f2f2f2;
+
+}
+
+
+[data-theme=light],
+.theme-light {
+  .navbar,body {
+	background: #f2f2f2
+  }
+}
+
+@media screen and (min-width: 1024px) {
+    .navbar-burger {
+        display: block
+    }
+}
+
+.navbar-burger {
+	margin-inline-start: unset;
+	color: #444746;
+	margin-left: 11px;
+}
+
+.hoverbutton {
+    border-radius: 16px;
+    padding: 10px;
+}
+.hoverbutton:hover {
+    background: #e6e9ed;
+
+}
+
+
+.aside .compose {
+    margin: -8px -10px 10px -10px;
+    padding: 0 10px;
+  }
+  .aside .compose .button {
+    color: #444746;
+	background: #c2e7ff;
+
+  }
+  .aside .compose .button .compose {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .aside .main {
+    padding-left: 30px;
+    color: #444746;
+  }
+
+  .aside .main .item {
+    display: block;
+    color: #444746;
+  }
+  .aside .main .item.active {
+    background-color: #d3e3fd;
+    margin-left: -30px;
+    padding-left: 30px;
+	border-radius: 16px;
+  }
+  .aside .main .item:active,.aside .main .item:hover {
+    background-color: #e6e9ed;
+    margin-left: -30px;
+    padding-left: 30px;
+	border-radius: 16px;
+  }
+  .aside .main .icon {
+    font-size: 19px;
+    padding-right: 30px;
+    color: #444746;
+  }
+  .aside .main .name {
+    font-size: 15px;
+    color: #5D5D5D;
+    font-weight: 500;
+  }
+
+  .aside .main .item.active .name {
+    font-weight: bold;
+  }
+
+aside {
+	max-width: 250px;
+	min-width: 250px;
+	transition: height 1s ease;
+}
+
+.is-pulled-right.mailCount {
+    margin-right: 10px;
+    font-weight: bold;
+	color: #5D5D5D;
+
+}
+
+.navbar-burger:hover {
+    background-color: #e6e9ed;
+}
+
+.hidden {
+	display: none
+}
+
+.collapsedSideNav {
+	margin-left: 16px;
+}
