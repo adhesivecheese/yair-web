@@ -161,3 +161,52 @@ aside {
 .collapsedSideNav {
 	margin-left: 16px;
 }
+
+
+#mailbox-header .checkbox {
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-top: -5px;
+    margin-bottom: -5px;
+}
+
+.navbutton {
+    padding: 7px;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    width: 40px;
+}
+
+
+span.msg-from.column {
+  flex: 0 0 178px;
+}
+
+span.column.is-1 {
+      flex: 0 0 78px;
+      margin-left: 15px;
+}
+
+.card {
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid #e1e1e1;
+  border-radius: 0;
+}
+
+.card-content {
+  margin: 0;
+  padding: 12px;
+}
+
+.highlight-icon {
+  margin-left: 5px;
+}
+
+span.msg-subject.column {
+  flex: 0 0 auto;
+}
+
+span.column.msg-timestamp {
+  flex: 0 0 auto;
+}

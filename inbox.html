@@ -6,40 +6,38 @@
 	<title>Inbox (100)</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
-	<link rel="stylesheet" href="https://unpkg.com/bulma@1.0.0/css/bulma.min.css"/>
-    <link rel="stylesheet" type="text/css" href="css/inbox.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://unpkg.com/bulma@1.0.0/css/bulma.min.css" />
+	<link rel="stylesheet" type="text/css" href="css/inbox.css">
 </head>
 
 <body>
-    <nav class="navbar">
+	<nav class="navbar">
 
 		<div class="navbar-brand">
-			<a id="aside-toggle" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+			<a id="aside-toggle" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
 				<span aria-hidden="true"></span>
 				<span aria-hidden="true"></span>
 				<span aria-hidden="true"></span>
 				<span aria-hidden="true"></span>
-			  </a>
-			<a class="navbar-item" href="#">
-			  <img src="img/Rmail.png">		
 			</a>
-		
+			<a class="navbar-item" href="#">
+				<img src="Rmail.png">
+			</a>
 
-		  </div>
-            <div id="navMenu" class="navbar-menu">
-                <div class="navbar-start">
-                </div>
+		</div>
+		<div id="navMenu" class="navbar-menu">
+				<div class="navbar-start"></div>
 
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <button id="settingsButton" class="hoverbutton fa fa-cog"></button>
-                    </div>
-                </div>
-            </div>
-    </nav>
+				<div class="navbar-end">
+					<div class="navbar-item">
+						<button id="settingsButton" class="hoverbutton fa-solid fa-gear"></button>
+					</div>
+				</div>
+			</div>
+	</nav>
 
-    <div class="is-link is-fullheight-with-navbar columns">
+	<div class="is-link is-fullheight-with-navbar columns">
 		<aside id="sideNav" class="aside column is-2">
 			<div>
 				<div class="compose has-text-centered">
@@ -51,30 +49,66 @@
 			  		</a>
 				</div>
 				<div class="main">
-					<a href="#" class="item active"><span class="icon"><i class="fa fa-inbox"></i></span><span class="name">Inbox</span><span class="is-pulled-right mailCount">(100)</span></a>
-					<a href="#" class="item"><span class="icon"><i class="fa fa-star"></i></span><span class="name">Starred</span></a>
-					<a href="#" class="item"><span class="icon"><i class="fa fa-file"></i></span><span class="name">Drafts</span></a>
-					<a href="#" class="item"><span class="icon"><i class="fa fa-archive"></i></span><span class="name">Archived</span></a>
+					<a href="#" class="item active"><span class="icon"><i class="fa-solid fa-inbox"></i></span><span class="name">Inbox</span><span id="unreadCount" class="is-pulled-right mailCount">(100)</span></a>
+					<a href="#" class="item"><span class="icon"><i class="fa-regular fa-star"></i></span><span class="name">Starred</span></a>
+					<a href="#" class="item"><span class="icon"><i class="fa-regular fa-file"></i></i></span><span class="name">Drafts</span></a>
+					<a href="#" class="item"><span class="icon"><i class="fa-solid fa-box-archive"></i></span><span class="name">Archived</span></a>
 				</div>
 			</div>
 		</aside>
 		<div id="mailbox" class="column">
 			<div id="mailbox-header" class="navbar-menu">
 				<div class="navbar-start">
-					<button class="button">Button</button>
-					<button class="button">Button</button>
-					<button class="button">Button</button>
+					<label class="checkbox hoverbutton">
+						<input type="checkbox" />
+					</label>
+					<button class="navbutton hoverbutton"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+					<div id="bulkSelected" class="hidden">
+						<button class="navbutton hoverbutton"><i class="fa-regular fa-envelope-open"></i></button>
+						<button class="navbutton hoverbutton"><i class="fa-regular fa-envelope"></i></button>
+						<button class="navbutton hoverbutton"><i class="fa-regular fa-star"></i></button>
+						<button class="navbutton hoverbutton"><i class="fa-solid fa-box-archive"></i></button>
+					</div>
 				</div>
-			  
+
 				<div class="navbar-end">
 					<span>Last Update: <span class="lastUpdate">NaN</span></span>
 				</div>
 			  </div>
 			<div id="mailbox-content">
+
+
+
+
+				<div class="card">
+					<div class="card-content">
+						<div class="msg-preview columns">
+							<span class="msg-control column is-1">
+								<label class="checkbox">
+									<input type="checkbox" />
+								</label>
+								<span class="icon highlight-icon"><i class="fa-regular fa-star"></i></span>
+
+							</span>
+							<span class="msg-from column">abcdefghijklmnopqrst</span>
+							<span class="msg-subject column"><strong>{{ msg.subject }}</strong></span>
+							<span class="column">{{ msg.snippet }}</span>
+							<span class="column">
+								<span class="msg-timestamp is-pulled-right">{{ msg.timestamp }}</span>
+							</span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
 			</div>
 		</div>
 		<aside id="settings" class="aside column hidden"></aside>
-    </div>
+	</div>
 
 </body>
 
